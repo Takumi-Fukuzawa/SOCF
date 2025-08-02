@@ -371,7 +371,14 @@ def get_system_prompt(model, objective):
             os_search_str=os_search_str,
             operating_system=operating_system,
         )
-    elif model == "gemini-pro-vision-with-ocr":
+    elif model == "gemini-1.5-flash":
+        prompt = SYSTEM_PROMPT_STANDARD.format(
+            objective=objective,
+            cmd_string=cmd_string,
+            os_search_str=os_search_str,
+            operating_system=operating_system,
+        )
+    elif model == "gemini-1.5-flash-with-ocr":
 
         prompt = SYSTEM_PROMPT_GEMINI_OCR.format(
             objective=objective,
@@ -379,7 +386,7 @@ def get_system_prompt(model, objective):
             os_search_str=os_search_str,
             operating_system=operating_system,
         )
-    elif model == "gemini-pro-vision-with-som":
+    elif model == "gemini-1.5-flash-with-som":
 
         prompt = SYSTEM_PROMPT_GEMINI_SOM.format(
             objective=objective,

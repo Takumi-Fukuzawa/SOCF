@@ -54,12 +54,12 @@ async def get_next_action(model, messages, objective, session_id):
         return operation, None
     if model == "agent-1":
         return "coming soon"
-    if model == "gemini-pro-vision":
+    if model == "gemini-1.5-flash":
         return call_gemini_pro_vision(messages, objective), None
-    if model == "gemini-pro-vision-with-ocr":
+    if model == "gemini-1.5-flash-with-ocr":
         operation = await call_gemini_pro_vision_with_ocr(messages, objective, model)
         return operation, None
-    if model == "gemini-pro-vision-with-som":
+    if model == "gemini-1.5-flash-with-som":
         operation = await call_gemini_pro_vision_with_som(messages, objective, model)
         return operation, None
     if model == "llava":
@@ -285,7 +285,7 @@ def call_gemini_pro_vision(messages, objective):
         capture_screen_with_cursor(screenshot_filename)
         # sleep for a second
         time.sleep(1)
-        prompt = get_system_prompt("gemini-pro-vision", objective)
+        prompt = get_system_prompt("gemini-1.5-flash", objective)
 
         model = config.initialize_google()
         if config.verbose:

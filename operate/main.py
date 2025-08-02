@@ -13,7 +13,7 @@ def main_entry():
     parser.add_argument(
         "-m",
         "--model",
-        help="Specify the model to use (gpt-4, gpt-4-with-ocr, gemini-pro-vision, gemini-pro-vision-with-ocr, gemini-pro-vision-with-som, claude-3, qwen-vl, llava, etc.)",
+        help="Specify the model to use (gpt-4, gpt-4-with-ocr, gemini-1.5-flash, gemini-1.5-flash-with-ocr, gemini-1.5-flash-with-som, claude-3, qwen-vl, llava, etc.)",
         required=False,
         default="gpt-4-with-ocr",
     )
