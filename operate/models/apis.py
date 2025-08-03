@@ -55,12 +55,12 @@ async def get_next_action(model, messages, objective, session_id):
     if model == "agent-1":
         return "coming soon"
     if model == "gemini-1.5-flash":
-        return call_gemini_pro_vision(messages, objective), None
+        return call_gemini_1_5_flash(messages, objective), None
     if model == "gemini-1.5-flash-with-ocr":
-        operation = await call_gemini_pro_vision_with_ocr(messages, objective, model)
+        operation = await call_gemini_1_5_flash_with_ocr(messages, objective, model)
         return operation, None
     if model == "gemini-1.5-flash-with-som":
-        operation = await call_gemini_pro_vision_with_som(messages, objective, model)
+        operation = await call_gemini_1_5_flash_with_som(messages, objective, model)
         return operation, None
     if model == "llava":
         operation = call_ollama_llava(messages)
@@ -265,13 +265,13 @@ async def call_qwen_vl_with_ocr(messages, objective, model):
             traceback.print_exc()
         return gpt_4_fallback(messages, objective, model)
 
-def call_gemini_pro_vision(messages, objective):
+def call_gemini_1_5_flash(messages, objective):
     """
     Get the next action for Self-Operating Computer using Gemini Pro Vision
     """
     if config.verbose:
         print(
-            "[Self Operating Computer][call_gemini_pro_vision]",
+            "[Self Operating Computer][call_gemini_1_5_flash]",
         )
     # sleep for a second
     time.sleep(1)
@@ -289,19 +289,19 @@ def call_gemini_pro_vision(messages, objective):
 
         model = config.initialize_google()
         if config.verbose:
-            print("[call_gemini_pro_vision] model", model)
+            print("[call_gemini_1_5_flash] model", model)
 
         response = model.generate_content([prompt, Image.open(screenshot_filename)])
 
         content = response.text[1:]
         if config.verbose:
-            print("[call_gemini_pro_vision] response", response)
-            print("[call_gemini_pro_vision] content", content)
+            print("[call_gemini_1_5_flash] response", response)
+            print("[call_gemini_1_5_flash] content", content)
 
         content = json.loads(content)
         if config.verbose:
             print(
-                "[get_next_action][call_gemini_pro_vision] content",
+                "[get_next_action][call_gemini_1_5_flash] content",
                 content,
             )
 
@@ -317,9 +317,9 @@ def call_gemini_pro_vision(messages, objective):
         return call_gpt_4o(messages)
 
 
-async def call_gemini_pro_vision_with_ocr(messages, objective, model):
+async def call_gemini_1_5_flash_with_ocr(messages, objective, model):
     if config.verbose:
-        print("[call_gemini_pro_vision_with_ocr]")
+        print("[call_gemini_1_5_flash_with_ocr]")
 
     try:
         time.sleep(1)
@@ -344,15 +344,15 @@ async def call_gemini_pro_vision_with_ocr(messages, objective, model):
         full_prompt = f"{system_prompt}\n\n{user_prompt}"
 
         if config.verbose:
-            print("[call_gemini_pro_vision_with_ocr] full_prompt", full_prompt)
+            print("[call_gemini_1_5_flash_with_ocr] full_prompt", full_prompt)
 
         # Generate content using Gemini
         response = model_client.generate_content([full_prompt, Image.open(screenshot_filename)])
 
         content = response.text
         if config.verbose:
-            print("[call_gemini_pro_vision_with_ocr] response", response)
-            print("[call_gemini_pro_vision_with_ocr] content", content)
+            print("[call_gemini_1_5_flash_with_ocr] response", response)
+            print("[call_gemini_1_5_flash_with_ocr] content", content)
 
         content = clean_json(content)
 
@@ -368,7 +368,7 @@ async def call_gemini_pro_vision_with_ocr(messages, objective, model):
                 text_to_click = operation.get("text")
                 if config.verbose:
                     print(
-                        "[call_gemini_pro_vision_with_ocr][click] text_to_click",
+                        "[call_gemini_1_5_flash_with_ocr][click] text_to_click",
                         text_to_click,
                     )
                 # Initialize EasyOCR Reader
@@ -390,15 +390,15 @@ async def call_gemini_pro_vision_with_ocr(messages, objective, model):
 
                 if config.verbose:
                     print(
-                        "[call_gemini_pro_vision_with_ocr][click] text_element_index",
+                        "[call_gemini_1_5_flash_with_ocr][click] text_element_index",
                         text_element_index,
                     )
                     print(
-                        "[call_gemini_pro_vision_with_ocr][click] coordinates",
+                        "[call_gemini_1_5_flash_with_ocr][click] coordinates",
                         coordinates,
                     )
                     print(
-                        "[call_gemini_pro_vision_with_ocr][click] final operation",
+                        "[call_gemini_1_5_flash_with_ocr][click] final operation",
                         operation,
                     )
                 processed_content.append(operation)
@@ -422,9 +422,9 @@ async def call_gemini_pro_vision_with_ocr(messages, objective, model):
         return gpt_4_fallback(messages, objective, model)
 
 
-async def call_gemini_pro_vision_with_som(messages, objective, model):
+async def call_gemini_1_5_flash_with_som(messages, objective, model):
     if config.verbose:
-        print("[call_gemini_pro_vision_with_som]")
+        print("[call_gemini_1_5_flash_with_som]")
 
     time.sleep(1)
 
@@ -458,7 +458,7 @@ async def call_gemini_pro_vision_with_som(messages, objective, model):
 
         if config.verbose:
             print(
-                "[call_gemini_pro_vision_with_som] full_prompt",
+                "[call_gemini_1_5_flash_with_som] full_prompt",
                 full_prompt,
             )
 
@@ -471,8 +471,8 @@ async def call_gemini_pro_vision_with_som(messages, objective, model):
 
         content = response.text
         if config.verbose:
-            print("[call_gemini_pro_vision_with_som] response", response)
-            print("[call_gemini_pro_vision_with_som] content", content)
+            print("[call_gemini_1_5_flash_with_som] response", response)
+            print("[call_gemini_1_5_flash_with_som] content", content)
 
         content = clean_json(content)
 
@@ -483,7 +483,7 @@ async def call_gemini_pro_vision_with_som(messages, objective, model):
         content = json.loads(content)
         if config.verbose:
             print(
-                "[call_gemini_pro_vision_with_som] content",
+                "[call_gemini_1_5_flash_with_som] content",
                 content,
             )
 
@@ -492,21 +492,21 @@ async def call_gemini_pro_vision_with_som(messages, objective, model):
         for operation in content:
             if config.verbose:
                 print(
-                    "[call_gemini_pro_vision_with_som] for operation in content",
+                    "[call_gemini_1_5_flash_with_som] for operation in content",
                     operation,
                 )
             if operation.get("operation") == "click":
                 label = operation.get("label")
                 if config.verbose:
                     print(
-                        "[Self Operating Computer][call_gemini_pro_vision_with_som] label",
+                        "[Self Operating Computer][call_gemini_1_5_flash_with_som] label",
                         label,
                     )
 
                 coordinates = get_label_coordinates(label, label_coordinates)
                 if config.verbose:
                     print(
-                        "[Self Operating Computer][call_gemini_pro_vision_with_som] coordinates",
+                        "[Self Operating Computer][call_gemini_1_5_flash_with_som] coordinates",
                         coordinates,
                     )
                 image = Image.open(
@@ -518,7 +518,7 @@ async def call_gemini_pro_vision_with_som(messages, objective, model):
                 )
                 if config.verbose:
                     print(
-                        "[Self Operating Computer][call_gemini_pro_vision_with_som] click_position_percent",
+                        "[Self Operating Computer][call_gemini_1_5_flash_with_som] click_position_percent",
                         click_position_percent,
                     )
                 if not click_position_percent:
@@ -533,14 +533,14 @@ async def call_gemini_pro_vision_with_som(messages, objective, model):
                 operation["y"] = y_percent
                 if config.verbose:
                     print(
-                        "[Self Operating Computer][call_gemini_pro_vision_with_som] new click operation",
+                        "[Self Operating Computer][call_gemini_1_5_flash_with_som] new click operation",
                         operation,
                     )
                 processed_content.append(operation)
             else:
                 if config.verbose:
                     print(
-                        "[Self Operating Computer][call_gemini_pro_vision_with_som] .append none click operation",
+                        "[Self Operating Computer][call_gemini_1_5_flash_with_som] .append none click operation",
                         operation,
                     )
 
@@ -548,7 +548,7 @@ async def call_gemini_pro_vision_with_som(messages, objective, model):
 
             if config.verbose:
                 print(
-                    "[Self Operating Computer][call_gemini_pro_vision_with_som] new processed_content",
+                    "[Self Operating Computer][call_gemini_1_5_flash_with_som] new processed_content",
                     processed_content,
                 )
             return processed_content
